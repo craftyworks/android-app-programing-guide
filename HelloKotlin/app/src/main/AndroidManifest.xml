@@ -3,14 +3,27 @@
     package="com.ddam40.example.hellokotlin">
 
     <application
+        android:name=".MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".BmiKotlinActivity" android:label="BmiKotlinActivity"></activity>
-        <activity android:name=".BmiJavaActivity" android:label="BmiJavaActivity"/>
+        <activity android:name=".ControlKotlinActivity" android:label="ControlKotlin"></activity>
+        <activity android:name=".ControlJavaActivity" android:label="ControlJava"/>
+        <activity
+            android:name=".VariableKotlinActivity"
+            android:label="VariableKotlin" />
+        <activity
+            android:name=".VariableJavaActivity"
+            android:label="VariableJava" />
+        <activity
+            android:name=".BmiKotlinActivity"
+            android:label="BmiKotlinActivity" />
+        <activity
+            android:name=".BmiJavaActivity"
+            android:label="BmiJavaActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
