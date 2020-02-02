@@ -60,4 +60,25 @@ class KotlinTest {
         assertThat(fruit1.hashCode()).isEqualTo(fruit2.hashCode())
     }
 
+    @Test
+    fun testLambda() {
+        println(sum(1,2))
+        assertThat(sum(1, 2)).isEqualTo(3)
+
+        println({x:Int, y:Int -> x * y }(2,2))
+        val exp = {x:Int, y:Int -> {
+            z:Int -> (x + y) * z
+        }}
+        println(exp(2,3)(3))
+
+        val exp2 = exp(3,2)
+        println(exp2(3))
+    }
+
+    @Test
+    fun testStringExt() {
+        val str = "Hello World"
+        println(str.lastString())
+    }
+
 }
