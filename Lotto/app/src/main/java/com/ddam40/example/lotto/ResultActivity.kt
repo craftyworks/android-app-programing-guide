@@ -2,6 +2,7 @@ package com.ddam40.example.lotto
 
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_result.*
 import java.text.SimpleDateFormat
@@ -16,11 +17,17 @@ class ResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_result)
 
         val name = intent.getStringExtra("name")
+        val result = intent.getIntegerArrayListExtra("result")
+        val constellation = intent.getStringExtra("constellation")
+Log.d("별자리", "${constellation}, ${result}")
+
         resultLabel.text = "랜덤으로 생성된\n로또번호입니다"
         if(!TextUtils.isEmpty(name)) {
             resultLabel.text = "$name 님의\n${SimpleDateFormat("yyyy년 MM월 dd일").format(Date())}\n로또 번호입니다"
         }
-        val result = intent.getIntegerArrayListExtra("result")
+        if(!TextUtils.isEmpty(constellation)) {
+            resultLabel.text = "${constellation} 의\n${SimpleDateFormat("yyyy년 MM월 dd일").format(Date())}\n로또 번호입니다"
+        }
         result?.let {
             updateLottoBallImage(result.sortedBy { it })
         }

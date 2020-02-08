@@ -3,6 +3,7 @@ package com.ddam40.example.lotto
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.ddam40.example.lotto.LottoNumberMaker.getShuffleLottoNumbers
 import kotlinx.android.synthetic.main.activity_main.*
 import java.util.*
 
@@ -27,26 +28,4 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun getRandomLottoNumber(): Int {
-        return Random().nextInt(45) + 1
-    }
-
-    fun getRandomLottoNumbers(): MutableList<Int> {
-        val lottoNumbers = mutableListOf<Int>()
-        for(i in 1..6) {
-            lottoNumbers.add(getRandomLottoNumber())
-        }
-        return lottoNumbers
-    }
-
-    fun getShuffleLottoNumbers(): MutableList<Int> {
-        val list = mutableListOf<Int>()
-        for(number in 1..45) {
-            list.add(number)
-        }
-
-        list.shuffle()
-
-        return list.subList(0, 6)
-    }
 }

@@ -3,11 +3,10 @@ package com.ddam40.example.lotto
 import android.content.Intent
 import android.os.Bundle
 import android.text.TextUtils
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.ddam40.example.lotto.LottoNumberMaker.getLottoNumbersFromHash
 import kotlinx.android.synthetic.main.activity_name.*
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.collections.ArrayList
 
 class NameActivity : AppCompatActivity() {
 
@@ -16,7 +15,10 @@ class NameActivity : AppCompatActivity() {
         setContentView(R.layout.activity_name)
 
         goButton.setOnClickListener {
-            if(TextUtils.isEmpty(editText.text.toString())) return@setOnClickListener
+            if(TextUtils.isEmpty(editText.text.toString())) {
+                Toast.makeText(applicationContext, "이름을 입력하세요.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
             val intent = Intent(this, ResultActivity::class.java)
             intent.putIntegerArrayListExtra("result", ArrayList(getLottoNumbersFromHash(editText.text.toString())))
@@ -27,18 +29,5 @@ class NameActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             finish()
         }
-    }
-
-    fun getLottoNumbersFromHash(name: String): MutableList<Int> {
-        val list = mutableListOf<Int>()
-        for(number in  1..45) {
-            list.add(number)
-        }
-
-        val targetString = SimpleDateFormat("yyyy-MM-dd", Locale.KOREA).format(Date()) + name
-
-        list.shuffle(Random(targetString.hashCode().toLong()))
-
-        return list.subList(0, 6)
     }
 }
