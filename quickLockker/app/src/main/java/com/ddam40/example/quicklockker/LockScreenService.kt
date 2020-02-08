@@ -32,6 +32,7 @@ class LockScreenService : Service() {
                 }
             }
         }
+        return Service.START_REDELIVER_INTENT
     }
 
     override fun onDestroy() {
@@ -41,7 +42,7 @@ class LockScreenService : Service() {
         }
     }
 
-    override fun onBind(intent: Intent): IBinder {
+    override fun onBind(intent: Intent): IBinder? {
         return null
     }
 }
