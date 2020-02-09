@@ -1,5 +1,8 @@
 package com.ddam40.example.punchpower
 
+import android.animation.Animator
+import android.animation.AnimatorInflater
+import android.animation.AnimatorListenerAdapter
 import android.content.Context
 import android.content.Intent
 import android.hardware.Sensor
@@ -8,7 +11,6 @@ import android.hardware.SensorEventListener
 import android.hardware.SensorManager
 import android.os.Bundle
 import android.util.Log
-import android.view.animation.AnimationUtils
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
 
@@ -66,10 +68,25 @@ class MainActivity : AppCompatActivity() {
         startTime = 0L
         stateLabel.text = "핸드폰을 손에쥐고 주먹을 내지르세요"
 
-        if(++slideNumber % 2 == 0) {
-            imageView.startAnimation(AnimationUtils.loadAnimation(this@MainActivity, R.anim.tran))
-        } else {
-            imageView.startAnimation(AnimationUtils.loadAnimation(this@MainActivity, R.anim.rotate))
+        /*
+        AnimatorInflater.loadAnimator(this@MainActivity, R.animator.color_anim).apply {
+            val colorAnimator = this@apply as? ObjectAnimator
+            colorAnimator?.apply {
+                setEvaluator(ArgbEvaluator())
+                target = window.decorView.findViewById(android.R.id.content)
+                start()
+            }
+        }
+        */
+
+        AnimatorInflater.loadAnimator(this@MainActivity, R.animator.property_animation).apply {
+            addListener(object : AnimatorListenerAdapter() {
+                override fun onAnimationEnd(animation: Animator?) {
+                    start()
+                }
+            })
+            setTarget(imageView)
+            start()
         }
         sensorManager.registerListener(eventListener, sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION), SensorManager.SENSOR_DELAY_NORMAL)
     }
