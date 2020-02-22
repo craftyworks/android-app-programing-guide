@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "44555583005",
+    "firebase_url": "https://anonymoussns-ebb3e.firebaseio.com",
+    "project_id": "anonymoussns-ebb3e",
+    "storage_bucket": "anonymoussns-ebb3e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:44555583005:android:f0c1cf4d58da9d5d82d0f4",
+        "android_client_info": {
+          "package_name": "com.ddam40.example.anonymoussns"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "44555583005-r4kpds8mgnlrjdtqf2dq679r7p13dubi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoIkQhf3vQCBWBI0Z3kOYNvJCSfXywj-Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "44555583005-r4kpds8mgnlrjdtqf2dq679r7p13dubi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
