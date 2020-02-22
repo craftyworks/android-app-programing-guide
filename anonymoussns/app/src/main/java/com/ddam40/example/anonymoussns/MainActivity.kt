@@ -11,13 +11,9 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.google.firebase.database.ChildEventListener
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.*
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.card_background.view.imageView
 import kotlinx.android.synthetic.main.card_post.view.*
 import org.joda.time.DateTime
 import org.joda.time.Days
@@ -29,8 +25,6 @@ import java.util.*
 class MainActivity : AppCompatActivity() {
 
     val TAG = "MainActivity"
-
-    var ref = FirebaseDatabase.getInstance().getReference("test")
 
     val posts: MutableList<Post> = mutableListOf()
 
@@ -120,7 +114,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.imageView
+        val imageView: ImageView = itemView.backgroundImage
         val contentsText: TextView = itemView.contentsText
         val timeTextView: TextView = itemView.timeTextView
         val commentCountText: TextView = itemView.commentCountTextView
@@ -141,6 +135,22 @@ class MainActivity : AppCompatActivity() {
             holder.contentsText.text = post.message
             holder.timeTextView.text = getDiffTimeText(post.writeTime as Long)
             holder.commentCountText.text = "0"
+
+            FirebaseDatabase.getInstance().getReference("/Comments/${post.postId}").addValueEventListener(object : ValueEventListener {
+                override fun onCancelled(p0: DatabaseError?) {
+                }
+
+                override fun onDataChange(snapshot: DataSnapshot?) {
+                    holder.commentCountText.text = snapshot?.childrenCount.toString()
+                }
+
+            })
+
+            holder.itemView.setOnClickListener {
+                val intent = Intent(this@MainActivity, DetailActivity::class.java)
+                intent.putExtra("postId", post.postId)
+                startActivity(intent)
+            }
         }
     }
 

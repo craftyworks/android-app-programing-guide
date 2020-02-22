@@ -33,13 +33,20 @@ class WriteActivity : AppCompatActivity() {
         "android.resource://com.ddam40.example.anonymoussns/drawable/bg9"
     )
 
+    var mode = "post"
+    var postId = ""
     var currentBgPosition = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_write)
 
-        supportActionBar?.title = "글쓰기"
+        intent.getStringExtra("mode")?.let {
+            mode = intent.getStringExtra("mode")
+            postId = intent.getStringExtra("postId")
+        }
+
+        supportActionBar?.title = if(mode == "post") "글쓰기" else "댓글쓰기"
 
         val layoutManager = LinearLayoutManager(this@WriteActivity)
         layoutManager.orientation = LinearLayoutManager.HORIZONTAL
@@ -52,17 +59,33 @@ class WriteActivity : AppCompatActivity() {
                 Toast.makeText(applicationContext, "메세지를 입력하세요.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            val post = Post()
-            val newRef = FirebaseDatabase.getInstance().getReference("Posts").push()
-            post.writeTime = ServerValue.TIMESTAMP
-            post.bgUri = bgList[currentBgPosition]
-            post.message = input.text.toString()
-            post.writerId = getMyId()
-            post.postId = newRef.key
-            newRef.setValue(post)
 
-            Toast.makeText(applicationContext, "공유되었습니다.", Toast.LENGTH_SHORT).show()
-            finish()
+            if(mode == "post") {
+                val post = Post()
+                val newRef = FirebaseDatabase.getInstance().getReference("Posts").push()
+                post.writeTime = ServerValue.TIMESTAMP
+                post.bgUri = bgList[currentBgPosition]
+                post.message = input.text.toString()
+                post.writerId = getMyId()
+                post.postId = newRef.key
+                newRef.setValue(post)
+
+                Toast.makeText(applicationContext, "공유되었습니다.", Toast.LENGTH_SHORT).show()
+                finish()
+            } else {
+                val comment = Comment()
+                val newRef = FirebaseDatabase.getInstance().getReference("Comments/$postId").push()
+                comment.writeTime = ServerValue.TIMESTAMP
+                comment.bgUri = bgList[currentBgPosition]
+                comment.message = input.text.toString()
+                comment.writerId = getMyId()
+                comment.postId = postId
+                comment.commentId = newRef.key
+                newRef.setValue(comment)
+
+                Toast.makeText(applicationContext, "공유되었습니다.", Toast.LENGTH_SHORT).show()
+                finish()
+            }
         }
     }
 
@@ -71,7 +94,7 @@ class WriteActivity : AppCompatActivity() {
     }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView = itemView.imageView
+        val imageView = itemView.backgroundImage
     }
 
     inner class MyAdapter : RecyclerView.Adapter<MyViewHolder>() {
